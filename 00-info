@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+import bootstrap as bs
+
+bs.fheadline("BS INFO")
+conf = bs.config()
+map(lambda n: bs.fprint("%s: %s", n, getattr(conf, n)), bs.pubdir(conf))

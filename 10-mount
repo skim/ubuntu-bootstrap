@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+import os.path
+import bootstrap as bs
+
+bs.fheadline("BS MOUNT")
+conf = bs.config()
+if not os.path.exists(conf.workdir):
+    bs.sub("mkdir -p %s" % conf.workdir)
+bs.sub("sudo mount %s %s" % (conf.rootpartition, conf.workdir))

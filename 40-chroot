@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+import bootstrap as bs
+
+
+bs.fheadline("BS CHROOT")
+conf = bs.config()
+bs.sub("sudo chroot %s /bin/bash" % conf.workdir)

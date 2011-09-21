@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+import bootstrap as bs
+
+bs.fheadline("BS UNMOUNT")
+conf = bs.config()
+if not bs.sub("sudo umount %s" % conf.rootpartition):
+    pass
+    #bs.sub("sudo fuser -km %s" % conf.workdir)

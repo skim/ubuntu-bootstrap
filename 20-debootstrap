@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+import bootstrap as bs
+
+
+bs.fheadline("BS DEBOOTSTRAP")
+conf = bs.config()
+bs.sub("sudo debootstrap --arch %s %s %s %s" % (
+    conf.arch, conf.release, conf.workdir, conf.repository))
+

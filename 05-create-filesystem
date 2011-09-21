@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+import shlex, subprocess
+import bootstrap as bs
+
+bs.fheadline("BS CREATE FILESYSTEM")
+conf = bs.config()
+bs.sub("sudo mke2fs %s" % conf.rootpartition)
