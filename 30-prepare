@@ -6,24 +6,13 @@ bs.fheadline("BS PREPARE", desc="configure base system")
 conf = bs.config()
 
 
-sources = """
+bs.tofile("""
 #sources
 deb {0} {1} main multiverse restricted universe
 deb-src {0} {1} main multiverse restricted universe
 deb {0} {1}-updates main multiverse restricted universe
 deb-src {0} {1}-updates main multiverse restricted universe
-"""
-_proxy = ""
-if hasattr(conf, "repositoryproxy") and conf.repositoryproxy:
-    _proxy = conf.repositoryproxy
-    sources = "%s\n" % """
-deb {2} {1} main multiverse restricted universe
-deb-src {2} {1} main multiverse restricted universe
-deb {2} {1}-updates main multiverse restricted universe
-deb-src {2} {1}-updates main multiverse restricted universe
-    """
-bs.tofile(sources. format(conf.repository, conf.release,
-                          conf.repositoryproxy).strip(),
+""".format(conf.repository, conf.release).strip(),
     bs.workpath(conf, "/etc/apt/sources.list"), sudo=True)
 
 
