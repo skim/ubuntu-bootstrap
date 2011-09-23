@@ -21,6 +21,11 @@ def fprint(s="", *x):
 def fheadline(s, *x):
     fprint()
     fprint(s, *x)
+    fprint()
+    
+
+def removespace(s):
+    return ''.join(s.split())
     
 def sub(line, echo=True, promt="$ "):
     args = shlex.split(line)
@@ -29,7 +34,7 @@ def sub(line, echo=True, promt="$ "):
     return subprocess.call(args)
     
 
-def tofile(text, filename, sudo=False):
+def tofile(text, filename, sudo=False, readable=True):
     fprint(text)
     pre = ""
     if sudo:
@@ -38,7 +43,8 @@ def tofile(text, filename, sudo=False):
     f.write(text)
     f.close()
     sub("%scp %s %s" % (pre, f.name, filename))
-    sub("%schmod a+r %s" % (pre, filename))
+    if readable:
+        sub("%schmod a+r %s" % (pre, filename))
 
 
 def workpath(conf, relativename):
