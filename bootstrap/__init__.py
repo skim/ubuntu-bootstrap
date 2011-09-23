@@ -1,4 +1,4 @@
-import sys, shlex, subprocess, os.path
+import sys, shlex, subprocess, os.path, tempfile
 
 class Config(object):
     pass
@@ -27,4 +27,21 @@ def sub(line, echo=True, promt="$ "):
     if echo:
         fprint("%s%s", promt, " ".join(args))
     return subprocess.call(args)
+    
 
+def tofile(text, filename, sudo=False):
+    fprint(text)
+    pre = ""
+    if sudo:
+        pre = "sudo "
+    f = tempfile.NamedTemporaryFile(delete=False)
+    f.write(text)
+    f.close()
+    sub("%scp %s %s" % (pre, f.name, filename))
+    sub("%schmod a+r %s" % (pre, filename))
+
+
+def workpath(conf, relativename):
+    if relativename.startswith("/"):
+        relativename = relativename[1:]
+    return os.path.join(conf.workdir, relativename)

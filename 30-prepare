@@ -1,22 +1,29 @@
 #!/usr/bin/env python
 import bootstrap as bs
 
+
 bs.fheadline("BS PREPARE")
 conf = bs.config()
 
-sourceslist = """
+
+bs.tofile("""
 deb {0} {1} main multiverse restricted universe
 deb-src {0} {1} main multiverse restricted universe
 deb {0} {1}-updates main multiverse restricted universe
 deb-src {0} {1}-updates main multiverse restricted universe
-""".format(conf.repository, conf.release).strip()
+""".format(conf.repository, conf.release).strip(),
+    bs.workpath(conf, "/etc/apt/sources.list"), sudo=True)
 
-f = open("sources.list", 'w')
 
-try:
-    f.write(sourceslist)
-    f.write("\n")
-finally:
-    f.close()
+bs.tofile("""
+127.0.0.1 localhost
+127.0.1.1 {0}
 
-bs.sub("sudo mv sources.list %s/etc/apt/" % conf.workdir)
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+""".format(conf.hostname).strip(), bs.workpath(conf, "/etc/hosts"), sudo=True)
