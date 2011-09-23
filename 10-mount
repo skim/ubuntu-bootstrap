@@ -2,7 +2,7 @@
 import os.path
 import bootstrap as bs
 
-bs.fheadline("BS MOUNT")
+bs.fheadline("BS MOUNT", desc="mount partitions")
 conf = bs.config()
 if not os.path.exists(conf.workdir):
     bs.sub("mkdir -p %s" % conf.workdir)

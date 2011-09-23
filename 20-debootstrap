@@ -2,7 +2,7 @@
 import bootstrap as bs
 
 
-bs.fheadline("BS DEBOOTSTRAP")
+bs.fheadline("BS DEBOOTSTRAP", desc="run debootstrap")
 conf = bs.config()
 bs.sub("sudo debootstrap --arch %s %s %s %s" % (
     conf.arch, conf.release, conf.workdir, conf.repository))

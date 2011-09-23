@@ -2,7 +2,7 @@
 import bootstrap as bs
 
 
-bs.fheadline("BS PREPARE")
+bs.fheadline("BS PREPARE", desc="configure base system")
 conf = bs.config()
 
 

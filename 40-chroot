@@ -2,6 +2,6 @@
 import bootstrap as bs
 
 
-bs.fheadline("BS CHROOT")
+bs.fheadline("BS CHROOT", "install additional packages")
 conf = bs.config()
-bs.sub("sudo chroot %s /bin/bash" % conf.workdir)
+bs.sub("sudo chroot %s /10-install" % conf.workdir)

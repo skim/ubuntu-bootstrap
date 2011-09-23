@@ -18,8 +18,11 @@ def fprint(s="", *x):
     print s % (x)
     
     
-def fheadline(s, *x):
+def fheadline(s, desc=None, *x):
     fprint()
+    if desc:
+        s = "%s - %s" % (s, desc)
+    s = "[%s]" % s
     fprint(s, *x)
     fprint()
     
@@ -35,7 +38,6 @@ def sub(line, echo=True, promt="$ "):
     
 
 def tofile(text, filename, sudo=False, readable=True):
-    fprint(text)
     pre = ""
     if sudo:
         pre = "sudo "
