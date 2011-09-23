@@ -53,3 +53,5 @@ def workpath(conf, relativename):
     if relativename.startswith("/"):
         relativename = relativename[1:]
     return os.path.join(conf.workdir, relativename)
+    
+    
