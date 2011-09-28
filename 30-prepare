@@ -50,12 +50,19 @@ mount -a
 cd /dev
 MAKEDEV generic
 cd /
-localedef -i en_US -c -f UTF-8 en_US.UTF-8
+locale-gen en_US
+locale-gen en_US.UTF-8
+locale-gen de_DE
+locale-gen de_DE@euro
+locale-gen de_DE.UTF-8
+dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
 apt-get -y install linux-firmware linux-firmware-nonfree grub
 apt-get -y install {0}
 apt-get -y install {1}
+dpkg-reconfigure keyboard-configuration
+apt-get -y autoremove
 passwd
 """.format(conf.kernel, bs.removespace(conf.packages).replace(",", " ")),
 bs.workpath(conf, installfile), sudo=True, readable=False)
