@@ -58,7 +58,7 @@ locale-gen de_DE.UTF-8
 dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
-apt-get -y install linux-firmware linux-firmware-nonfree grub
+apt-get -y install linux-firmware linux-firmware-nonfree grub2
 apt-get -y install {0}
 apt-get -y install {1}
 dpkg-reconfigure keyboard-configuration
