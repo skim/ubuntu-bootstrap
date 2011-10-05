@@ -24,7 +24,7 @@ bs.tofile("""
 ::1     ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
 ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
+ff02::1 ip6-allnodesh
 ff02::2 ip6-allrouters
 ff02::3 ip6-allhosts
 """.format(conf.hostname).strip(), bs.workpath(conf, "/etc/hosts"), sudo=True)
@@ -58,16 +58,21 @@ locale-gen de_DE.UTF-8
 dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
-apt-get -y install linux-firmware linux-firmware-nonfree grub2
+apt-get -y install linux-firmware linux-firmware-nonfree grub-pc
 apt-get -y install {0}
 apt-get -y install {1}
-dpkg-reconfigure keyboard-configuration
 apt-get -y autoremove
+dpkg-reconfigure keyboard-configuration
 passwd
-""".format(conf.kernel, bs.removespace(conf.packages).replace(",", " ")),
-bs.workpath(conf, installfile), sudo=True, readable=False)
-
-
+useradd -G {2} -d /home/{3} -m {3}
+passwd {3}
+umount -a
+""".format(
+        conf.kernel,
+        bs.removespace(conf.packages).replace(",", " "),
+        conf.groups,
+        conf.user),
+        bs.workpath(conf, installfile), sudo=True, readable=False)
 bs.sub("sudo chmod +x %s" % bs.workpath(conf, installfile))
 
 
