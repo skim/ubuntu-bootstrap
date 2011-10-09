@@ -36,7 +36,6 @@ bs.tofile("%s" % conf.hostname, bs.workpath(conf, "/etc/hostname"), sudo=True)
 bs.tofile("""
 {0}         /             ext2    defaults                 0    1
 {1}         none          swap    sw                       0    0
-proc        /proc         proc    defaults                 0    0
 """.format(conf.rootpartition, conf.swappartition).strip() + "\n",
 bs.workpath(conf, "/etc/fstab"), sudo=True)
 
@@ -46,9 +45,9 @@ bs.tofile("""
 #!/usr/bin/env bash
 set -o verbose #echo onset +o verbose
 touch /etc/mtab
-mount -a
-cd /dev
-MAKEDEV generic
+mount /dev
+mount /proc
+mount /sys
 cd /
 locale-gen en_US
 locale-gen en_US.UTF-8
@@ -58,11 +57,7 @@ locale-gen de_DE.UTF-8
 dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
-apt-get -y install linux-firmware linux-firmware-nonfree
-apt-get -y install {0}
-apt-get -y install {1}
 apt-get -y autoremove
-dpkg-reconfigure keyboard-configuration
 passwd
 useradd -G {2} -d /home/{3} -m {3}
 passwd {3}
