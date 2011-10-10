@@ -47,9 +47,6 @@ cd /
 set -o verbose
 touch /etc/mtab
 mount -a
-mount /dev
-mount /proc
-mount /sys          
 """.strip(), bs.workpath(conf, envfile), sudo=True, readable=False)
 bs.sub("sudo chmod +x %s" % bs.workpath(conf, envfile))
 
@@ -69,7 +66,7 @@ dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
 apt-get -y install linux-firmware
-apt-get -y {1}
+apt-get -y install {1}
 apt-get -y autoremove
 passwd
 useradd -G {2} -d /home/{3} -m {3}
