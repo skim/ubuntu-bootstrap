@@ -40,14 +40,25 @@ bs.tofile("""
 bs.workpath(conf, "/etc/fstab"), sudo=True)
 
 
+envfile = "/00-env"
+bs.tofile("""
+#!/usr/bin/env bash
+cd /
+set -o verbose
+touch /etc/mtab
+mount -a
+mount /dev
+mount /proc
+mount /sys          
+""".strip(), bs.workpath(conf, envfile), sudo=True, readable=False)
+bs.sub("sudo chmod +x %s" % bs.workpath(conf, envfile))
+
+
 installfile = "/10-install"
 bs.tofile("""
 #!/usr/bin/env bash
-set -o verbose #echo onset +o verbose
-touch /etc/mtab
-mount /dev
-mount /proc
-mount /sys
+set -o verbose
+/00-env
 cd /
 locale-gen en_US
 locale-gen en_US.UTF-8
@@ -57,6 +68,8 @@ locale-gen de_DE.UTF-8
 dpkg-reconfigure locales
 apt-get -y update
 apt-get -y dist-upgrade
+apt-get -y install linux-firmware
+apt-get -y {1}
 apt-get -y autoremove
 passwd
 useradd -G {2} -d /home/{3} -m {3}
@@ -64,11 +77,24 @@ passwd {3}
 umount -a
 """.format(
         conf.kernel,
-        bs.removespace(conf.packages).replace(",", " "),
+        conf.basepackages,
         conf.groups,
         conf.user),
         bs.workpath(conf, installfile), sudo=True, readable=False)
 bs.sub("sudo chmod +x %s" % bs.workpath(conf, installfile))
+
+#kernel and copy firmware here
+
+setupfile = "/20-setup"
+bs.tofile("""
+#!/usr/bin/env bash
+set -o verbose
+/00-env
+apt-get -y install {0}
+""".format(
+        conf.packages
+        ), bs.workpath(conf, setupfile), sudo=True, readable=False)
+bs.sub("sudo chmod +x %s" % bs.workpath(conf, setupfile))
 
 
 bs.tofile("""
