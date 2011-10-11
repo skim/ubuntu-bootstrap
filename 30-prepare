@@ -33,13 +33,6 @@ ff02::3 ip6-allhosts
 bs.tofile("%s" % conf.hostname, bs.workpath(conf, "/etc/hostname"), sudo=True)
 
 
-bs.tofile("""
-{0}         /             ext2    defaults                 0    1
-{1}         none          swap    sw                       0    0
-""".format(conf.rootpartition, conf.swappartition).strip() + "\n",
-bs.workpath(conf, "/etc/fstab"), sudo=True)
-
-
 envfile = "/00-env"
 bs.tofile("""
 #!/usr/bin/env bash
@@ -57,7 +50,7 @@ bs.tofile("""
 set -o verbose
 /00-env
 cd /dev
-./MAKEDEV -v generic-nopty
+MAKEDEV -v generic
 cd /
 locale-gen en_US
 locale-gen en_US.UTF-8
@@ -102,3 +95,4 @@ bs.sub("sudo chmod +x %s" % bs.workpath(conf, setupfile))
 bs.tofile("""
 LANG="en_US.UTF-8"          
 """.strip(), bs.workpath(conf, "/etc/default/locale"), sudo=True)
+
