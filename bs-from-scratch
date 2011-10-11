@@ -3,9 +3,6 @@ import bootstrap as bs
 
 bs.sub("./00-prepare", echo=False)
 bs.sub("./02-info", echo=False)
-bs.sub("./03-unmount", echo=False)
-bs.sub("./05-create-filesystem", echo=False)
-bs.sub("./10-mount", echo=False)
 bs.sub("./20-debootstrap", echo=False)
 bs.sub("./30-prepare", echo=False)
 bs.sub("./40-chroot-install", echo=False)
