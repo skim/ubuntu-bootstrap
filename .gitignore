@@ -1,3 +1,4 @@
 target/
+*.komodoproject
 *.pyc
 *.log
